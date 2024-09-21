@@ -1,17 +1,17 @@
 breed[ovejas oveja]
 breed[lobos lobo]
-turtles-own [ energía ]  ;; las ovejas tienen una propiedad llamada energía
-patches-own[cantidad-de-pasto]  ;; las parcelas contienen pasto, cantidad variable
+turtles-own [ energía ]
+patches-own[cantidad-de-pasto] 
 
 to setup
  clear-all
  ask patches [
-  set cantidad-de-pasto random-float 10.0 ;; parcelas se habitan con num aleatorio de pasto
-  recolorear-pasto ;; colorear las parcelas de acuerdo con la cantidad de pasto
+  set cantidad-de-pasto random-float 10.0 
+  recolorear-pasto 
  ]
 
 
- create-ovejas num-ovejas [ ;; crea ovejas y sus propiedades iniciales
+ create-ovejas num-ovejas [ 
   setxy random-xcor random-ycor
   set color white
   set shape "sheep"
@@ -19,7 +19,7 @@ to setup
  ]
 
 ;; NUEVO : CREACIÓN DE LOBOS
- create-lobos num-lobos [ ;; crea lobos y sus propiedades básicas
+ create-lobos num-lobos [ 
   setxy random-xcor random-ycor
   set color brown
   set shape "wolf"
@@ -33,30 +33,30 @@ end
 to go
  if not any? turtles [stop]
 ask turtles [
-  wiggle ;; gire al azar en cierta dirección
-  muevase ;; luego muevase
+  wiggle 
+  muevase 
   verifique-si-hay-muertes
   comer
-  reproducirse  ; Nuevo: procedimiento de reproducción de las ovejas
+  reproducirse 
  ]
- renace-pasto   ; nuevo  el pasto vuelve a crecer
+ renace-pasto  
  tick
  actualice-gráficas
 end
 
-;; procedimiento de ovejas, la oveja cambia de dirección
-to wiggle    ;; gira derecha luego izquierda,  pero en promedio apunta hacia adelante
+
+to wiggle   
  right random 90
  left random 90
 end
 
-;; procedimiento de ovejas, la oveja se mueve una unidad
+
 to muevase
  forward 1
- set energía energía - costo-movimiento ; Nuevo reducir energía por deslizador
+ set energía energía - costo-movimiento 
 end
 
-to verifique-si-hay-muertes   ; procedimiento oveja : mínima energía --> al papayo
+to verifique-si-hay-muertes  
   if energía < 0 [die]
 end
 
@@ -65,7 +65,7 @@ to actualice-gráficas
   plot count ovejas
 
   set-current-plot-pen "lobos"
-  plot count lobos * 10 ;; se escala para que se vea bien la gráfica
+  plot count lobos * 10 
 
   set-current-plot-pen "pasto"
   plot sum [cantidad-de-pasto] of patches / 50
@@ -82,26 +82,26 @@ to comer
 ]
 end
 
-to comer-pasto  ; Nuevo : Deslizador cantidad-energía-pasto
+to comer-pasto 
  if cantidad-de-pasto >= cantidad-energia-pasto [
   set energía energía + cantidad-energia-pasto  ; incremente energía oveja
   set cantidad-de-pasto cantidad-de-pasto - cantidad-energia-pasto  ; decrementa el pasto de la   parcela donde está
- recolorear-pasto  ; actualiza color del pasto
+ recolorear-pasto 
 ]
 end
 
 to comer-oveja
-  if any? ovejas-here [ ;; si hay ovejas coma
-  let target one-of ovejas-here ;; seleccione una oveja al azar de la parcela
-  ask target [ ;; coma la oveja seleccionada
+  if any? ovejas-here [ 
+  let target one-of ovejas-here 
+  ask target [ 
   die
   ]
-  ;; incremente energía de acuerdo con deslizador
+  
   set energía energía + cantidad-energia-oveja
   ]
   end
 
-;; renace el pasto
+
 to renace-pasto
   ask patches [
    set cantidad-de-pasto cantidad-de-pasto + rata-crecimiento-pasto  ;; Nuevo : deslizador
@@ -118,8 +118,8 @@ end
 
 to reproducirse
  if energía  > 200 [
-  set energía energía - 100  ;; reproducción transfiere energía
-  hatch 1 [ set energía 100 ] ;; energía de la nueva oveja
+  set energía energía - 100  
+  hatch 1 [ set energía 100 ] 
  ]
  end
 @#$#@#$#@
