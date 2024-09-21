@@ -9,19 +9,19 @@ tiendas-own[producto]
 
 to setup
   clear-all
-  set productos ["a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l"]   ; la plaza meneja 12 productos
+  set productos ["a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l"]   
   setup-tiendas
   setup-clientes
   reset-ticks
 end
 
 
-to setup-tiendas   ; colocar las tiendas en el mundo con su producto de venta
+to setup-tiendas   
   ask n-of num-tiendas patches [
     sprout-tiendas 1]
   ask tiendas [
     set shape "dot"
-    set producto item who productos   ; asegura que cada tienda maneje un producto diferente
+    set producto item who productos  
   ]
 end
 
@@ -30,7 +30,7 @@ to setup-clientes ; colocar los clientes  en el mundo con su lista-de-compras
     sprout-clientes 1]
   ask clientes [
     set shape "arrow"
-    set lista-de-compras n-of 5 productos   ; todas las listas de los clientes tendrán 5 productos diferentes
+    set lista-de-compras n-of 5 productos  
   ]
 end
 
@@ -51,14 +51,13 @@ to a-comprar
   [
     intente-comprar
   ]
-  avanzar    ; compre o no compre debe avanzar
+  avanzar   
 end
 
 to intente-comprar
   let una-tienda one-of tiendas-here
-  if member? [producto] of una-tienda lista-de-compras     ; el producto está en la lista de compras
-  [set lista-de-compras remove [producto] of una-tienda lista-de-compras    ; se "tacha" (remueve) el producto de la lista
-  ]
+  if member? [producto] of una-tienda lista-de-compras     
+  [set lista-de-compras remove [producto] of una-tienda lista-de-compras  
 end
 
 to avanzar
