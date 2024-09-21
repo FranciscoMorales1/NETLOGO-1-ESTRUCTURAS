@@ -27,10 +27,9 @@ to setup-tiendas
       set color black
       set shape "house"
 
-     ; asignar u  producto único a cada tienda
-
+    
       ask tiendas [ set producto (item who productos)
-                ;    set label producto
+                
      set label-color black
       ]
 
@@ -46,7 +45,7 @@ to setup-clientes
       set lista-productos ( remove-duplicates n-values tam-lista-productos ([ x -> one-of productos]))
       pen-down
       set memoria-tiendas nobody
-     ; set label lista-productos
+    
     ]
   ]
 end
@@ -101,7 +100,7 @@ end
 
 to recordar [unas-tiendas]
   set memoria-tiendas (turtle-set memoria-tiendas unas-tiendas)
-  ;show memoria-tiendas
+  
 end
 
 to-report busque-memoria
